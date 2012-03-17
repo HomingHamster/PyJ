@@ -15,8 +15,8 @@ class GUI(Tk):
         buttonFrame = Frame(parent)
         newClassButton = Button(buttonFrame, text="New Class")
         newClassButton.pack(fill=X)
-        newRalationshipButton = Button(buttonFrame, text="New Relationship")
-        newRelationshipButton.pack(fill=X)
+	newRelButton = Button(buttonFrame, text="New Relationship")
+	newRelButton.pack()
         return buttonFrame
 
 if __name__=='__main__':
