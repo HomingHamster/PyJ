@@ -10,6 +10,7 @@ class GUI(Tk):
         buttonFrame = self.createButtonFrame(mainFrame)
         buttonFrame.pack(side=LEFT, fill=Y)
         mainCanvas = Canvas(self)
+        mainCanvas.config(bg='gray')
         mainCanvas.pack(side=RIGHT, fill=BOTH, expand=1)
         mainFrame.pack(fill=BOTH, expand=1)
     def createButtonFrame(self, parent):
