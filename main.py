@@ -1,3 +1,4 @@
+import re
 from Tkinter import *
 
 class GUI(Tk):
@@ -54,6 +55,11 @@ class GUI(Tk):
         
     def redo(self):
         pass
+
+class Generator:
+    def __init__(self):
+        self.attributeMethod = 
+            "^([+\- ]|)\s{0,1}([a-z][a-zA-Z]+):\s{0,1}([a-zA-Z]+)$"
 
 if __name__=='__main__':
     app = GUI()
