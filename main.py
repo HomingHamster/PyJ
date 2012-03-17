@@ -17,6 +17,14 @@ class GUI(Tk):
         newClassButton.pack(fill=X)
 	newRelButton = Button(buttonFrame, text="New Relationship")
 	newRelButton.pack()
+	clearCanvasButton = Button(buttonFrame, text="Clear Canvas")
+	clearCanvasButton.pack()
+	generateJavaCodeButton = Button(buttonFrame, text="Generate Java Code")
+	generateJavaCodeButton.pack()
+	editLinkButton = Button(buttonFrame, text="Edit/Delete a Relationship")
+	editLinkButton.pack()
+	editClassButton = Button(buttonFrame, text="Edit/Delete a Class")
+	editClassButton.pack()
         return buttonFrame
 
 if __name__=='__main__':
