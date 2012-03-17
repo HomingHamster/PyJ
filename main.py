@@ -33,9 +33,27 @@ class GUI(Tk):
         
         filemenu = Menu(menubar, tearoff=0)
         filemenu.add_command(label="Exit", command=self.quit)
+        filemenu.add_command(label="Save", command=self.save)
+        filemenu.add_command(label="open", command=self.open)
         
+        editmenu = Menu(menubar, tearoff=0)
+        editmenu.add_command(label="Undo", command=self.undo)
+        editmenu.add_command(label="redo", command=self.redo)
         menubar.add_cascade(label="File", menu=filemenu)
+        menubar.add_cascade(label="Edit", menu=editmenu)
         return menubar
+        
+    def save(self):
+        pass
+        
+    def open(self):
+        pass
+        
+    def undo(self):
+        pass
+        
+    def redo(self):
+        pass
 
 if __name__=='__main__':
     app = GUI()
