@@ -1,6 +1,7 @@
-This is a line of useless shit
-INSTALL
-Do stuff
-RUN
-click go!
-This is felix's change
+RUNNING THE APPLICATION
+
+"python main.py" on the command line. Or double click the application from the GUI.
+
+USING THE APPLICATION
+
+Quite simply, don't. Not yet at least.
