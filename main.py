@@ -7,6 +7,7 @@ class GUI(Tk):
     def __init__(self):
         Tk.__init__(self)
         self.createMainWindow()
+        self.title("PyJ")
         self.config(menu=self.menuBar())
     def createMainWindow(self):
         mainFrame = Frame(self)
@@ -73,6 +74,9 @@ class GUI(Tk):
 class CanvasArea(Canvas):
     def __init__(self, parent):
         Canvas.__init__(self)
+        #migtht have to use double click to add properties and edit links etc.
+        self.bind("<B1-Motion>", self.mouseMoved)
+        self.bind("<Button-1>", self.mouseClicked)
         self.parent = parent
         self.config(bg="gray")
         self.classList=[]
@@ -85,7 +89,10 @@ class CanvasArea(Canvas):
     def drawClasses(self):
         for ddclass in self.classList:
             ddclass.draw(self)
-    
+    def mouseClicked(self, event):
+        print "clicked"
+    def mouseMoved(self, event):
+        print "moved"
     def clear(self):
         self.delete("all")
         
@@ -120,7 +127,7 @@ class DragAndDropClassObject:
 class ClassObject:
     def __init__(self):
         self.name=""
-        self.links = [] #so we can use list.set later.
+        self.links = []
         self.attributes = []
         self.methods = []
         
