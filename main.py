@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#PyJ authors Andy Cooper and Felix Farquharson
 import re
 from Tkinter import *
 
@@ -10,16 +12,14 @@ class GUI(Tk):
         mainFrame = Frame(self)
         buttonFrame = self.createButtonFrame(mainFrame)
         buttonFrame.pack(side=LEFT, fill=Y)
-        self.mainCanvas = Canvas(self)
-        self.mainCanvas.config(bg='gray')
+        self.mainCanvas = CanvasArea(self)
         self.mainCanvas.pack(side=RIGHT, fill=BOTH, expand=1)
         mainFrame.pack(fill=BOTH, expand=1)
         
    
     def clearCanvas(self):
-        self.mainCanvas.delete('all')    
+        self.mainCanvas.clear()    
         
-              
     def drawRectangle(self):
         self.mainCanvas.create_rectangle(205,10,300,105, outline='black', fill='white')
                     
@@ -44,9 +44,10 @@ class GUI(Tk):
         menubar = Menu(self)
         
         filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="Exit", command=self.quit)
         filemenu.add_command(label="Save", command=self.save)
         filemenu.add_command(label="open", command=self.open)
+        filemenu.add_separator()
+        filemenu.add_command(label="Exit", command=self.quit)
         
         editmenu = Menu(menubar, tearoff=0)
         editmenu.add_command(label="Undo", command=self.undo)
@@ -67,6 +68,30 @@ class GUI(Tk):
     def redo(self):
         pass
 
+class CanvasArea(Canvas):
+    def __init__(self, parent):
+        Canvas.__init__(parent)
+        self.config(bg="gray")
+    def drawClasses(self, listDDClasses):
+        for ddclass in listDDClasses:
+            ddclass.draw()
+    
+    def clear(self):
+        self.delete("all")
+        
+        
+class DragAndDropClass:
+    def __init__(self):
+        self.x = 10
+        self.y = 10
+    def draw(self):
+        pass
+
+class ClassObject:
+    def __init__(self, name):
+        self.name=name
+        self.links = [] #so we can use list.set later.
+
 class Generator:
     def __init__(self):
         self.attributePattern = \
@@ -75,6 +100,9 @@ class Generator:
             "^([+\- ]|)\s{0,1}([a-z][a-zA-Z_]+)\s{0,1}\(\
             (?:\s{0,1}([a-z][a-zA-Z]+)\s{0,1}:\s{0,1}([a-zA-Z_]+)\
             \s{0,1}(?:\s{0,1},|)|)+\)\s{0,1}:\s{0,1}([a-zA-Z_]+)$"
+    def generateCode(self, classList):
+        for class in classList:
+            pass
 
 if __name__=='__main__':
     app = GUI()
