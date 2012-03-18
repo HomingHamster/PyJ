@@ -20,16 +20,18 @@ class GUI(Tk):
     def clearCanvas(self):
         self.mainCanvas.clear()    
         
-    def drawRectangle(self):
-        self.mainCanvas.create_rectangle(205,10,300,105, outline='black', fill='white')
-                    
+    def newClass(self):
+        self.mainCanvas.newClass()
+        self.mainCanvas.redraw()
+    
     def createButtonFrame(self, parent):
         buttonFrame = Frame(parent)
-        newClassButton = Button(buttonFrame, text="New Class", command=self.drawRectangle)
+        newClassButton = Button(buttonFrame, text="New Class", command=self.newClass)
         newClassButton.pack(fill=X)
         newRelButton = Button(buttonFrame, text="New Relationship")
         newRelButton.pack(fill=X)
-        clearCanvasButton = Button(buttonFrame, text="Clear Canvas", command=self.clearCanvas)
+        clearCanvasButton = Button(buttonFrame, text="Clear Canvas", 
+                command=self.clearCanvas)
         clearCanvasButton.pack(fill=X)
         generateJavaCodeButton = Button(buttonFrame, text="Generate Java Code")
         generateJavaCodeButton.pack(fill=X)
@@ -55,7 +57,7 @@ class GUI(Tk):
         menubar.add_cascade(label="File", menu=filemenu)
         menubar.add_cascade(label="Edit", menu=editmenu)
         return menubar
-        
+
     def save(self):
         pass
         
@@ -70,27 +72,61 @@ class GUI(Tk):
 
 class CanvasArea(Canvas):
     def __init__(self, parent):
-        Canvas.__init__(parent)
+        Canvas.__init__(self)
+        self.parent = parent
         self.config(bg="gray")
-    def drawClasses(self, listDDClasses):
-        for ddclass in listDDClasses:
-            ddclass.draw()
+        self.classList=[]
+    def redraw(self):
+        self.clear()
+        self.drawClasses()
+    def newClass(self):
+        self.classList += [DragAndDropClassObject()]
+        print self.classList
+    def drawClasses(self):
+        for ddclass in self.classList:
+            ddclass.draw(self)
     
     def clear(self):
         self.delete("all")
         
         
-class DragAndDropClass:
+class DragAndDropClassObject:
     def __init__(self):
         self.x = 10
         self.y = 10
-    def draw(self):
-        pass
+        self.classObject = ClassObject()
+        self.spareCanvas = Canvas()
+    def position(self):
+        height = 20
+        x = 0
+        for string in ([self.classObject.name]+self.classObject.attributes+\
+                        self.classObject.methods):
+            if x < self.getSize(string)[0]:
+                x = self.getSize(string)[0]
+            height += 20
+        if height < 60:
+            height = 60
+        return self.x, self.y, self.x+x+20, self.y+height
+    def getSize(self, string):
+        string = self.spareCanvas.create_text(0,0,text=string)
+        bbox = self.spareCanvas.bbox(string)
+        return (bbox[2]-bbox[0], bbox[3]-bbox[1])
+    def draw(self, parent):
+        print "got ran"
+        parent.create_rectangle(self.position(), 
+                outline='black', fill='white')
+        
 
 class ClassObject:
-    def __init__(self, name):
-        self.name=name
+    def __init__(self):
+        self.name=""
         self.links = [] #so we can use list.set later.
+        self.attributes = []
+        self.methods = []
+        
+class Link:
+    def __init__(self):
+        pass
 
 class Generator:
     def __init__(self):
@@ -101,7 +137,7 @@ class Generator:
             (?:\s{0,1}([a-z][a-zA-Z]+)\s{0,1}:\s{0,1}([a-zA-Z_]+)\
             \s{0,1}(?:\s{0,1},|)|)+\)\s{0,1}:\s{0,1}([a-zA-Z_]+)$"
     def generateCode(self, classList):
-        for class in classList:
+        for classObj in classList:
             pass
 
 if __name__=='__main__':
