@@ -15,7 +15,11 @@ class GUI(Tk):
         self.mainCanvas.pack(side=RIGHT, fill=BOTH, expand=1)
         mainFrame.pack(fill=BOTH, expand=1)
         
+   
+    def clearCanvas(self):
+        self.mainCanvas.delete('all')    
         
+              
     def drawRectangle(self):
         self.mainCanvas.create_rectangle(205,10,300,105, outline='black', fill='white')
                     
@@ -25,7 +29,7 @@ class GUI(Tk):
         newClassButton.pack(fill=X)
         newRelButton = Button(buttonFrame, text="New Relationship")
         newRelButton.pack(fill=X)
-        clearCanvasButton = Button(buttonFrame, text="Clear Canvas")
+        clearCanvasButton = Button(buttonFrame, text="Clear Canvas", command=self.clearCanvas)
         clearCanvasButton.pack(fill=X)
         generateJavaCodeButton = Button(buttonFrame, text="Generate Java Code")
         generateJavaCodeButton.pack(fill=X)
