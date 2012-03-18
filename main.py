@@ -10,13 +10,18 @@ class GUI(Tk):
         mainFrame = Frame(self)
         buttonFrame = self.createButtonFrame(mainFrame)
         buttonFrame.pack(side=LEFT, fill=Y)
-        mainCanvas = Canvas(self)
-        mainCanvas.config(bg='gray')
-        mainCanvas.pack(side=RIGHT, fill=BOTH, expand=1)
+        self.mainCanvas = Canvas(self)
+        self.mainCanvas.config(bg='gray')
+        self.mainCanvas.pack(side=RIGHT, fill=BOTH, expand=1)
         mainFrame.pack(fill=BOTH, expand=1)
+        
+        
+    def drawRectangle(self):
+        self.mainCanvas.create_rectangle(205,10,300,105, outline='black', fill='white')
+                    
     def createButtonFrame(self, parent):
         buttonFrame = Frame(parent)
-        newClassButton = Button(buttonFrame, text="New Class")
+        newClassButton = Button(buttonFrame, text="New Class", command=self.drawRectangle)
         newClassButton.pack(fill=X)
         newRelButton = Button(buttonFrame, text="New Relationship")
         newRelButton.pack(fill=X)
@@ -29,6 +34,7 @@ class GUI(Tk):
         editClassButton = Button(buttonFrame, text="Edit/Delete a Class")
         editClassButton.pack(fill=X)
         return buttonFrame
+        
         
     def menuBar(self):
         menubar = Menu(self)
@@ -59,8 +65,8 @@ class GUI(Tk):
 
 class Generator:
     def __init__(self):
-        self.attributeMethod = 
-            "^([+\- ]|)\s{0,1}([a-z][a-zA-Z]+):\s{0,1}([a-zA-Z]+)$"
+        self.attributeMethod = \
+            "^([+\- ]|)\s{0,1}([a-z][a-zA-Z_]+):\s{0,1}([a-zA-Z_]+)$"
 
 if __name__=='__main__':
     app = GUI()
