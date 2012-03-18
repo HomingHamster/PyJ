@@ -69,8 +69,12 @@ class GUI(Tk):
 
 class Generator:
     def __init__(self):
-        self.attributeMethod = \
+        self.attributePattern = \
             "^([+\- ]|)\s{0,1}([a-z][a-zA-Z_]+):\s{0,1}([a-zA-Z_]+)$"
+        self.methodPattern = \
+            "^([+\- ]|)\s{0,1}([a-z][a-zA-Z_]+)\s{0,1}\(\
+            (?:\s{0,1}([a-z][a-zA-Z]+)\s{0,1}:\s{0,1}([a-zA-Z_]+)\
+            \s{0,1}(?:\s{0,1},|)|)+\)\s{0,1}:\s{0,1}([a-zA-Z_]+)$"
 
 if __name__=='__main__':
     app = GUI()
