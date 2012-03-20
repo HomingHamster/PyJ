@@ -76,10 +76,12 @@ class CanvasArea(Canvas):
         Canvas.__init__(self)
         #migtht have to use double click to add properties and edit links etc.
         self.bind("<B1-Motion>", self.mouseMoved)
-        self.bind("<Button-1>", self.mouseClicked)
+        self.bind("<B1>", self.mousePressed)
+        self.bind("<Double-Button-1>", self.mouseDoubleClicked)
         self.parent = parent
         self.config(bg="gray")
         self.classList=[]
+        self.dragging = False
     def redraw(self):
         self.clear()
         self.drawClasses()
@@ -89,10 +91,32 @@ class CanvasArea(Canvas):
     def drawClasses(self):
         for ddclass in self.classList:
             ddclass.draw(self)
-    def mouseClicked(self, event):
+    def mouseDoubleClicked(self, event):
         print "clicked"
-    def mouseMoved(self, event):
+    def mousePressed(self, event):
+        for ddClassObj in self.classList:
+            rect = (ddClassObj.position())
+            if rect[0] <= event.x <= rect[2]:
+                self.offsetx = event.x - rect[0]
+                self.offsety = event.y - rect[1]
+                self.dragging = True
         print "moved"
+    def mouseMoved(self, event):
+        if self.dragging:
+            x= event.x - offsetx
+            y= event.y - offsety
+
+    def findNearestClass(self, x, y):
+        minDist = 9999999
+        minObj = None
+        for component in self.classList:
+            if component.distanceTo(x,y) < minDist:
+                minDist = component.distanceTo(x,y)
+                minObj = component
+        if (minObj != None) && (minDist < 50) :
+            return minObj
+        return None
+            
     def clear(self):
         self.delete("all")
         
@@ -122,6 +146,8 @@ class DragAndDropClassObject:
         print "got ran"
         parent.create_rectangle(self.position(), 
                 outline='black', fill='white')
+    def distanceTo(self, x, y):
+        return 
         
 
 class ClassObject:
