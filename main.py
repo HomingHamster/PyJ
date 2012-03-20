@@ -28,8 +28,8 @@ class GUI(Tk):
         self.overrideredirect(0)    
    
     def clearCanvas(self):
-        self.mainCanvas.clear()    
-        
+        self.mainCanvas.clear()
+        self.mainCanvas.classList=[]    
     def newClass(self):
         self.mainCanvas.newClass()
         self.mainCanvas.redraw()
