@@ -6,6 +6,7 @@ from Tkinter import *
 class GUI(Tk):
     def __init__(self):
         Tk.__init__(self)
+        self.geometry("%dx%d+0+0" % (self.winfo_screenwidth()-50, self.winfo_screenheight()-150))
         self.createMainWindow()
         self.title("PyJ")
         self.config(menu=self.menuBar())
@@ -15,8 +16,16 @@ class GUI(Tk):
         buttonFrame.pack(side=LEFT, fill=Y)
         self.mainCanvas = CanvasArea(self)
         self.mainCanvas.pack(side=RIGHT, fill=BOTH, expand=1)
-        mainFrame.pack(fill=BOTH, expand=1)
+        mainFrame.pack(fill=BOTH, expand=1)   
         
+   
+    def fullScreen(self):
+        self.geometry("%dx%d+0+0" % (self.winfo_screenwidth(), self.winfo_screenheight()))    
+        self.overrideredirect(1)
+        
+    def exitFullScreen(self):
+        self.geometry("%dx%d+0+0" % (self.winfo_screenwidth()-50, self.winfo_screenheight()-150))
+        self.overrideredirect(0)    
    
     def clearCanvas(self):
         self.mainCanvas.clear()    
@@ -55,8 +64,14 @@ class GUI(Tk):
         editmenu = Menu(menubar, tearoff=0)
         editmenu.add_command(label="Undo", command=self.undo)
         editmenu.add_command(label="redo", command=self.redo)
+       
+        windowmenu = Menu(menubar, tearoff=0)
+        windowmenu.add_command(label="Fullscreen", command=self.fullScreen)
+        windowmenu.add_command(label="Exit Fullscreen", command=self.exitFullScreen)
+                                
         menubar.add_cascade(label="File", menu=filemenu)
         menubar.add_cascade(label="Edit", menu=editmenu)
+        menubar.add_cascade(label="Window", menu=windowmenu)
         return menubar
 
     def save(self):
