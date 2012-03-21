@@ -92,39 +92,52 @@ class CanvasArea(Canvas):
         #migtht have to use double click to add properties and edit links etc.
         self.bind("<B1-Motion>", self.mouseMoved)
         self.bind("<Button-1>", self.mousePressed)
-        self.bind("<Double-Button-1>", self.mouseDoubleClicked)
+        #self.bind("<Double-Button-1>", self.mouseDoubleClicked)
+        self.bind("<ButtonRelease-1>", self.mouseUp)
         self.parent = parent
         self.config(bg="gray")
         self.classList=[]
         self.offsetx=0
         self.offsety=0
+        self.dragObj = None
         self.dragging = False
     def redraw(self):
         self.clear()
         self.drawClasses()
     def newClass(self):
         self.classList += [DragAndDropClassObject()]
-        print self.classList
     def drawClasses(self):
         for ddclass in self.classList:
             ddclass.draw(self)
-    def mouseDoubleClicked(self, event):
-        print "clicked"
+    #def mouseDoubleClicked(self, event):
+        #print "clicked"
     def mousePressed(self, event):
-        for ddClassObj in self.classList:
-            rect = (ddClassObj.position())
-            if rect[0] <= event.x <= rect[2]:
-                self.offsetx = event.x - rect[0]
-                self.offsety = event.y - rect[1]
-                self.dragging = True
+        if self.dragging==False:
+            for ddClassObj in self.classList:
+                rect = (ddClassObj.position())
+                if (rect[0] <= event.x <= rect[2]) and \
+                        (rect[1] <= event.y <= rect[3]):
+                    
+                    self.offsetx = event.x - rect[0]
+                    self.offsety = event.y - rect[1]
+                    x=event.x - self.offsetx
+                    y=event.y - self.offsety
+                    self.dragObj = self.findNearestClass(x,y)
+                    self.dragging = True
+                    
     def mouseMoved(self, event):
         if self.dragging:
             x= event.x - self.offsetx
             y= event.y - self.offsety
-            self.findNearestClass(x,y).x = x
-            self.findNearestClass(x,y).y = y
+            self.dragObj.x = x
+            self.dragObj.y = y
         self.redraw()
-
+    def mouseUp(self, event):
+        print self.dragObj
+        self.dragging=False
+        self.dragObj = None
+        self.offsetx = None
+        self.offsety = None
     def findNearestClass(self, x, y):
         minDist = 9999999
         minObj = None
@@ -162,11 +175,11 @@ class DragAndDropClassObject:
         bbox = self.spareCanvas.bbox(string)
         return (bbox[2]-bbox[0], bbox[3]-bbox[1])
     def draw(self, parent):
-        print "got ran"
         parent.create_rectangle(self.position(), 
                 outline='black', fill='white')
     def distanceTo(self, x, y):
-        return (self.x-x)+(self.y-y)
+        print (abs(self.x-x))+(abs(self.y-y))
+        return (abs(self.x-x))+(abs(self.y-y))
         
 
 class ClassObject:
