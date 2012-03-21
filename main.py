@@ -6,7 +6,8 @@ from Tkinter import *
 class GUI(Tk):
     def __init__(self):
         Tk.__init__(self)
-        self.geometry("%dx%d+0+0" % (self.winfo_screenwidth()-50, self.winfo_screenheight()-150))
+        self.geometry("%dx%d+100+100" % (self.winfo_screenwidth()-350, self.winfo_screenheight()-450))
+        self.minsize(600, 300)
         self.createMainWindow()
         self.title("PyJ")
         self.config(menu=self.menuBar())
@@ -178,7 +179,6 @@ class DragAndDropClassObject:
         parent.create_rectangle(self.position(), 
                 outline='black', fill='white')
     def distanceTo(self, x, y):
-        print (abs(self.x-x))+(abs(self.y-y))
         return (abs(self.x-x))+(abs(self.y-y))
         
 
