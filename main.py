@@ -139,6 +139,7 @@ class CanvasArea(Canvas):
         self.dragObj = None
         self.offsetx = None
         self.offsety = None
+        
     def findNearestClass(self, x, y):
         minDist = 9999999
         minObj = None
@@ -181,7 +182,17 @@ class DragAndDropClassObject:
     def distanceTo(self, x, y):
         return (abs(self.x-x))+(abs(self.y-y))
         
-
+class Undo:
+    def __init__(self):
+        self.actionList = []
+        self.currentPosition = 0
+    def undo(self):
+        pass
+    def redo(self):
+        pass
+    def onAction(self, action):
+        pass
+        
 class ClassObject:
     def __init__(self):
         self.name=""
